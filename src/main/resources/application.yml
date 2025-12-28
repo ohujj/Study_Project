@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: exception
+
+file:
+  dir: C:/project/Study_Project/file/
+
+server:
+  tomcat:
+    uri-encoding: UTF-8
