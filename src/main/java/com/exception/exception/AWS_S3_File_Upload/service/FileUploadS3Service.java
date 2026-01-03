@@ -1,6 +1,7 @@
 package com.exception.exception.AWS_S3_File_Upload.service;
 
 
+import com.amazonaws.SdkClientException;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -98,18 +99,34 @@ public class FileUploadS3Service {
 
     }
 
-    public void delete(String fileUrl) {
-        DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
-                .bucket(bucket)
-                .key(fileUrl)
-                .build();
+    public void delete(String key) {
+        try {
+            DeleteObjectRequest request = DeleteObjectRequest.builder()
+                    .bucket(bucket)
+                    .key(key)
+                    .build();
 
-        s3Client.deleteObject(deleteObjectRequest);
-        log.info("s3 파일 삭제 : {}", fileUrl);
+            s3Client.deleteObject(request);
+            log.info("S3 파일 삭제 성공 : {}", key);
+
+        } catch (S3Exception e) {
+            log.error("S3 삭제 실패 - key={}, statusCode={}, message={}",
+                    key, e.statusCode(), e.awsErrorDetails().errorMessage(), e);
+            throw new RuntimeException("S3 파일 삭제 실패", e);
+
+        } catch (SdkClientException e) {
+            log.error("S3 통신 오류 - key={}", key, e);
+            throw new RuntimeException("S3 통신 오류", e);
+        }
     }
 
     public ResponseInputStream<GetObjectResponse> download(String fileName) {
         String key = PATH_PREFIX + fileName;
+
+        System.out.println("fileName = " + fileName);
+
+        System.out.println("key = " + key);
+
 
         GetObjectRequest request = GetObjectRequest.builder()
                 .bucket(bucket)
