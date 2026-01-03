@@ -42,6 +42,7 @@ public class FileUploadController {
         return ResponseEntity.ok("삭제 완료: " + fileUrl);
     }
 
+    //TODO : IAM Role 방식, Presigned 방식으로 개편 가능
     @GetMapping("/download")
     public ResponseEntity<InputStreamResource> download(
             @RequestParam String fileName) {
@@ -61,7 +62,6 @@ public class FileUploadController {
                             "attachment; filename=\"" + fileName + "\"")
                 .contentType(MediaType.parseMediaType(contentType))
                 .body(resource);
-
     }
 
 }
