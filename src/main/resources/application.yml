@@ -3,6 +3,9 @@ spring:
     name: exception
   profiles:
     active: local
+  redis:
+    host: localhost
+    port: 6379
 
 file:
   dir: C:/project/Study_Project/file/
