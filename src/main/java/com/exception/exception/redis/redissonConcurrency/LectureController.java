@@ -1,5 +1,6 @@
 package com.exception.exception.redis.redissonConcurrency;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,14 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/lecture")
+@RequiredArgsConstructor
 @Slf4j
 public class LectureController {
 
     private final LectureApplyService service;
-
-    public LectureController(LectureApplyService service) {
-        this.service = service;
-    }
 
     @PostMapping("/apply/{id}")
     public String apply(@PathVariable int id) {

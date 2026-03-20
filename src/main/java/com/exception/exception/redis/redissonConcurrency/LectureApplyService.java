@@ -1,5 +1,6 @@
 package com.exception.exception.redis.redissonConcurrency;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -9,20 +10,13 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class LectureApplyService {
 
     private final RedissonClient redissonClient;
     private final LectureSeatStore seatStore;
 
-    public LectureApplyService(RedissonClient redissonClient,
-                               LectureSeatStore seatStore) {
-        this.redissonClient = redissonClient;
-        this.seatStore = seatStore;
-    }
-
     public String apply(int requestId) {
-
-
 
         RLock lock = redissonClient.getLock("lecture:lock");
 
